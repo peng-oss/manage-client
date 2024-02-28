@@ -1,0 +1,41 @@
+.mainContainer {
+  margin: 50px 200px;
+}
+.mainContainer .marqueeContainer {
+  margin: 20px 0;
+}
+.mainContainer .timeContainer {
+  display: flex;
+  flex-direction: row;
+  margin: 20px 0;
+}
+.mainContainer .timeContainer .leftTimeContainer {
+  margin-right: 100px;
+  padding: 10px 15px;
+  flex: 1/2;
+}
+.mainContainer .timeContainer .rightTimeContainer {
+  padding: 10px 15px;
+  flex: 1/2;
+}
+.messageContainer {
+  margin: 50px 200px;
+}
+.messageContainer .textAreaContainer {
+  margin: 20px 0;
+}
+.reserveContainer {
+  margin: 50px 200px;
+}
+.reserveContainer .selectDateContainer {
+  margin: 20px 0;
+}
+.reserveContainer .btnContainer {
+  margin: 20px 0;
+}
+.appraisalContainer {
+  margin: 50px 200px;
+}
+.appraisalContainer .textAreaContainer {
+  margin: 20px 0;
+}
