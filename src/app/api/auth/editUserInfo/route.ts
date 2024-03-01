@@ -5,20 +5,21 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest){
     try {
         const reqBody = await request.json() as IUserInfo
-        const {username,phone,sex ,role,_id} = reqBody
+        const {receiveStatus,phone,sex ,role,_id} = reqBody
         await connectMongoDB()
-       //根据id查询并且更新
-        await User.findByIdAndUpdate(_id,{phone,sex,role})
+        //根据id查询并且更新
+    
+        if (role.value!=='') {
+            await User.findByIdAndUpdate(_id,{phone,sex,role,receiveStatus})
+        } else {
+            await User.findByIdAndUpdate(_id,{phone,sex,receiveStatus})
+        }
 
-        // 登录成功
+     
         const response = NextResponse.json({
             message: "修改成功",
-            success: true,
-            
+            success: true,  
         })
-
-      
-
         return response;
 
     } catch (error: any) {

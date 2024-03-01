@@ -121,6 +121,6 @@ export default function GuideManagerComponent() {
 
 
     return (
-        <div>{contextHolder}<Table rowKey={(e) => e._id} columns={columns} dataSource={fifUserList} /></div>
+        <div>{contextHolder}<Table loading={isLoading} rowKey={(e) => e._id} columns={columns} dataSource={fifUserList} /></div>
     )
 }

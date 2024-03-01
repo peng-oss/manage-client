@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, message } from 'antd'
+import { Button, Card, Col, Row, Spin, message } from 'antd'
 import React, { useState } from 'react'
 import "./style.css"
 import { Flex, Input } from 'antd';
@@ -37,7 +37,6 @@ export default function MemorialManagerComponent() {
             timeDetail: newTimeDetail,
             phone: newPhone
         })
-
         if (response.success) {
             messageApi.success('修改成功');
         } else {
@@ -46,69 +45,73 @@ export default function MemorialManagerComponent() {
     }
     return (
         <div className='container'>
-            {contextHolder}
-            <Row gutter={20} >
-                <Col span={10} className='itemContainer'>
-                    <Card title="编辑三五九旅纪念馆基本简介" bordered={false}>
-                        <TextArea
-                            showCount
-                            onChange={onChangeIntroduction}
-                            placeholder="请输入三五九旅纪念馆基本简介"
-                            defaultValue={homeInfo?.data.introduction}
-                            style={{ height: 120, resize: 'none' }}
-                        />
-                        <div style={{ display: "flex", justifyContent: "flex-end", margin: '30px 0 0 0' }}>
-                            <Button onClick={onSubmit} >提交</Button>
-                        </div>
+            {
+                isLoading ? <Spin spinning={isLoading} fullscreen /> : <div>
+                    {contextHolder}
+                    <Row gutter={20} >
+                        <Col span={10} className='itemContainer'>
+                            <Card title="编辑三五九旅纪念馆基本简介" bordered={false}>
+                                <TextArea
+                                    showCount
+                                    onChange={onChangeIntroduction}
+                                    placeholder="请输入三五九旅纪念馆基本简介"
+                                    defaultValue={homeInfo?.data.introduction}
+                                    style={{ height: 120, resize: 'none' }}
+                                />
+                                <div style={{ display: "flex", justifyContent: "flex-end", margin: '30px 0 0 0' }}>
+                                    <Button onClick={onSubmit} >提交</Button>
+                                </div>
 
-                    </Card>
-                </Col>
-                <Col span={10} className='itemContainer'>
-                    <Card title="编辑通知公告" bordered={false}>
-                        <TextArea
-                            showCount
-                            defaultValue={homeInfo?.data.notice}
-                            onChange={onChangeNotice}
-                            placeholder="请输入通知公告"
-                            style={{ height: 120, resize: 'none' }}
-                        />
+                            </Card>
+                        </Col>
+                        <Col span={10} className='itemContainer'>
+                            <Card title="编辑通知公告" bordered={false}>
+                                <TextArea
+                                    showCount
+                                    defaultValue={homeInfo?.data.notice}
+                                    onChange={onChangeNotice}
+                                    placeholder="请输入通知公告"
+                                    style={{ height: 120, resize: 'none' }}
+                                />
 
-                        <div style={{ display: "flex", justifyContent: "flex-end", margin: '30px 0 0 0' }}>
-                            <Button onClick={onSubmit}>提交</Button>
-                        </div>
-                    </Card>
-                </Col>
-            </Row>
-            <Row gutter={20}>
-                <Col span={10} className='itemContainer'>
-                    <Card title="编辑开闭馆时间详情" bordered={false}>
-                        <TextArea
-                            showCount
-                            defaultValue={homeInfo?.data.timeDetail}
-                            onChange={onChangeTimeDetail}
-                            placeholder="请输入开闭馆时间详情"
-                            style={{ height: 120, resize: 'none' }}
-                        />
-                        <div style={{ display: "flex", justifyContent: "flex-end", margin: '30px 0 0 0' }}>
-                            <Button onClick={onSubmit}>提交</Button>
-                        </div>
-                    </Card>
-                </Col>
-                <Col span={10} className='itemContainer'>
-                    <Card title="编辑联系电话" bordered={false}>
-                        <TextArea
-                            showCount
-                            defaultValue={homeInfo?.data.phone}
-                            onChange={onChangePhone}
-                            placeholder="请输入联系电话"
-                            style={{ height: 120, resize: 'none' }}
-                        />
-                        <div style={{ display: "flex", justifyContent: "flex-end", margin: '30px 0 0 0' }}>
-                            <Button onClick={onSubmit}>提交</Button>
-                        </div>
-                    </Card>
-                </Col>
-            </Row>
+                                <div style={{ display: "flex", justifyContent: "flex-end", margin: '30px 0 0 0' }}>
+                                    <Button onClick={onSubmit}>提交</Button>
+                                </div>
+                            </Card>
+                        </Col>
+                    </Row>
+                    <Row gutter={20}>
+                        <Col span={10} className='itemContainer'>
+                            <Card title="编辑开闭馆时间详情" bordered={false}>
+                                <TextArea
+                                    showCount
+                                    defaultValue={homeInfo?.data.timeDetail}
+                                    onChange={onChangeTimeDetail}
+                                    placeholder="请输入开闭馆时间详情"
+                                    style={{ height: 120, resize: 'none' }}
+                                />
+                                <div style={{ display: "flex", justifyContent: "flex-end", margin: '30px 0 0 0' }}>
+                                    <Button onClick={onSubmit}>提交</Button>
+                                </div>
+                            </Card>
+                        </Col>
+                        <Col span={10} className='itemContainer'>
+                            <Card title="编辑联系电话" bordered={false}>
+                                <TextArea
+                                    showCount
+                                    defaultValue={homeInfo?.data.phone}
+                                    onChange={onChangePhone}
+                                    placeholder="请输入联系电话"
+                                    style={{ height: 120, resize: 'none' }}
+                                />
+                                <div style={{ display: "flex", justifyContent: "flex-end", margin: '30px 0 0 0' }}>
+                                    <Button onClick={onSubmit}>提交</Button>
+                                </div>
+                            </Card>
+                        </Col>
+                    </Row>
+                </div>
+            }
         </div>
     )
 }

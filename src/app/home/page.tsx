@@ -10,6 +10,7 @@ import MainComponent from "./components/mainComponent";
 import MessageBoardComponent from "./components/messageBoardComponent";
 import ReserveComponent from "./components/reserveComponent";
 import { MyGlobalContext, UserData } from "./MyGlobalContext";
+import useSWR from "swr";
 
 
 const TabList = ["首页", "留言板", "预约", "观后评价"]
@@ -22,36 +23,23 @@ export default function Home() {
         token: undefined
     })
 
-    const [homeData, setHomeData] = useState<IHome>({
-        introduction: "",
-        notice: "",
-        timeDetail: "",
-        phone: ""
-    })
+    const { data: homeData, error, isLoading, mutate } = useSWR<{
+        data: IHome
+    }>("/api/home", get)
+
 
     const [open, setOpen] = useState(false);
 
 
-    useEffect(() => {
-        fetchHomeData()
-    }, [])
 
 
-    const fetchHomeData = async () => {
-        const response = await get<IHome>("/api/home")
 
-        if (response.success && response.data) {
-            setHomeData(response.data)
 
-        } else {
-
-        }
-    }
 
     const renderContent = () => {
         switch (currentActive) {
             case "首页":
-                return <MainComponent homeData={homeData} ></MainComponent>
+                return <MainComponent homeData={homeData?.data} ></MainComponent>
             case "留言板":
                 return <MessageBoardComponent></MessageBoardComponent>
             case "预约":
@@ -122,7 +110,7 @@ export default function Home() {
 
                 <NavbarContent justify="end">
                     <NavbarItem>
-                        <Tooltip content={homeData.phone}>
+                        <Tooltip content={homeData?.data.phone}>
                             <Button color="default" variant="light">联系电话</Button>
                         </Tooltip>
                     </NavbarItem>
@@ -149,7 +137,7 @@ export default function Home() {
 
             </Navbar>
             {
-                homeData.introduction === '' ?
+                isLoading ?
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '500px' }}>
                         <Spinner label="Loading..." color="primary" />
                     </div>

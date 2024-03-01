@@ -41,10 +41,12 @@ export async function POST(request: NextRequest){
             success: true,
             data: {
                 token,
-                userName: user.username,
+                username: user.username,
                 sex: user.sex,
                 role: user.role,
-                phone: user.phone
+                phone: user.phone,
+                receiveStatus: user.receiveStatus,
+                _id: user._id
             }
         })
 

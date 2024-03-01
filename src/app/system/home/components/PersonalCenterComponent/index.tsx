@@ -1,4 +1,5 @@
-import { Button, Descriptions, DescriptionsProps } from 'antd';
+import { Button, Descriptions, Switch } from 'antd';
+import { useMemo } from 'react';
 import { useGlobalContext } from '../../MyGlobalContext';
 import EditUserInfoModal, { Values } from './component/editUserInfoModal';
 import "./styles.css";
@@ -18,29 +19,68 @@ export default function PersonalCenterComponent(props: Props) {
 
     const { userData } = useGlobalContext()
 
-    const items: DescriptionsProps['items'] = [
-        {
-            key: '1',
-            label: '用户名',
-            children: <p>{userData?.username}</p>,
-        },
-        {
-            key: '2',
-            label: '电话',
-            children: <p>{userData?.phone}</p>,
-        },
-        {
-            key: '3',
-            label: '性别',
-            children: <p>{userData?.sex}</p>,
-        },
-        {
-            key: '4',
-            label: '角色',
-            children: <p>{userData?.role?.value}</p>,
-        },
+    const onChange = (checked: boolean) => {
+        console.log(`switch to ${checked}`);
+    };
 
-    ];
+    const items = useMemo(() => {
+        if (userData?.role?.code === "2") {
+            return [
+                {
+                    key: '1',
+                    label: '用户名',
+                    children: <p>{userData?.username}</p>,
+                },
+                {
+                    key: '2',
+                    label: '电话',
+                    children: <p>{userData?.phone}</p>,
+                },
+                {
+                    key: '3',
+                    label: '性别',
+                    children: <p>{userData?.sex}</p>,
+                },
+                {
+                    key: '4',
+                    label: '角色',
+                    children: <p>{userData?.role?.value}</p>,
+                },
+                {
+                    key: '5',
+                    label: '接待讲解状态',
+                    children: <Switch value={userData?.receiveStatus} disabled />,
+                },
+
+            ]
+        } else {
+            return [
+                {
+                    key: '1',
+                    label: '用户名',
+                    children: <p>{userData?.username}</p>,
+                },
+                {
+                    key: '2',
+                    label: '电话',
+                    children: <p>{userData?.phone}</p>,
+                },
+                {
+                    key: '3',
+                    label: '性别',
+                    children: <p>{userData?.sex}</p>,
+                },
+                {
+                    key: '4',
+                    label: '角色',
+                    children: <p>{userData?.role?.value}</p>,
+                },
+
+
+            ]
+        }
+    }, [userData?.phone, userData?.receiveStatus, userData?.role?.code, userData?.role?.value, userData?.sex, userData?.username])
+
     return (
         <div className='container'>
             <Descriptions bordered title="个人信息" items={items} extra={<Button type="primary" onClick={edit}>修改个人信息</Button>} />

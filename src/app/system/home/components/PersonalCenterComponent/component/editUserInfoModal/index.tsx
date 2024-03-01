@@ -1,5 +1,5 @@
 import { useGlobalContext } from '@/app/system/home/MyGlobalContext';
-import { Form, Input, Modal, Radio } from 'antd';
+import { Form, Input, Modal, Radio, Switch } from 'antd';
 
 import React, { useMemo } from 'react'
 
@@ -20,8 +20,6 @@ export default function EditUserInfoModal(props: CollectionCreateFormProps) {
 
     const { userData } = useGlobalContext()
 
-    console.log('peng-oss😈--------userData11------', userData)
-
     return (
         <Modal
             open={open}
@@ -33,7 +31,7 @@ export default function EditUserInfoModal(props: CollectionCreateFormProps) {
                 form
                     .validateFields()
                     .then((values) => {
-                        form.resetFields();
+                        form.resetFields()
                         onCreate(values);
                     })
                     .catch((info) => {
@@ -64,16 +62,10 @@ export default function EditUserInfoModal(props: CollectionCreateFormProps) {
                     </Radio.Group>
                 </Form.Item>
                 {
-                    userData?.role?.code === "1" ? <Form.Item name="role" label="角色" className="collection-create-form_last-form-item">
-                        <Radio.Group >
-                            <Radio defaultChecked={userData.role?.code === "1"} value="1">管理员</Radio>
-                            <Radio value="2">讲解员</Radio>
-                            <Radio value="3">用户</Radio>
-                        </Radio.Group>
+                    userData?.role?.code === "2" ? <Form.Item name={"receiveStatus"} label="接待讲解状态" >
+                        <Switch defaultChecked={userData?.receiveStatus} />
                     </Form.Item> : null
                 }
-
-
             </Form>
         </Modal>
     )

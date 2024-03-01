@@ -15,7 +15,8 @@ export interface IUserInfo {
     _id?: string
     username?: string
     phone?: string
-    sex?: string
+    sex?: string,
+    receiveStatus?: boolean
     role: {
         code: RoleCode,
         value:String
@@ -37,6 +38,10 @@ const userSchema = new mongoose.Schema({
     },
     sex: {
         type: String,
+        required: false,
+    },
+    receiveStatus: {
+        type: Boolean,
         required: false,
     },
     role: {

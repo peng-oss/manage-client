@@ -6,6 +6,7 @@ import { List, message } from 'antd';
 import { post, get } from '@/request';
 import { useGlobalContext } from '../MyGlobalContext';
 import { IMessage } from '@/models/message';
+import useSWR from 'swr';
 
 
 export default function MessageBoardComponent() {
@@ -13,24 +14,10 @@ export default function MessageBoardComponent() {
   const [messageApi, contextHolder] = message.useMessage();
   const { userData, login } = useGlobalContext()
 
-  const [messageList, setMessageList] = useState<IMessage[]>([])
+  const { data: messageList, error, isLoading, mutate } = useSWR<{
+    data: IMessage[]
+  }>("/api/message/getMessageList", get)
 
-
-
-  useEffect(() => {
-    getMessageListData()
-  }, [])
-
-  const getMessageListData = async () => {
-
-
-    const response = await get<IMessage[]>("api/message/getMessageList")
-
-    if (response.success && response.data) {
-      setMessageList(response.data)
-    }
-
-  }
 
   const onclickSubmit = () => {
 
@@ -45,9 +32,7 @@ export default function MessageBoardComponent() {
         userName: userData?.username
       })
       messageApi.success('提交成功')
-      setMessageList(pre => {
-        return [{ content: value, username: userData?.username ?? '' }, ...pre]
-      })
+      mutate()
     } else {
       messageApi.error('请填写你的留言')
     }
@@ -71,10 +56,11 @@ export default function MessageBoardComponent() {
       </div>
 
       <List
+        loading={isLoading}
         className="dark"
         itemLayout="horizontal"
-        dataSource={messageList}
-        renderItem={(item, index) => (
+        dataSource={messageList?.data}
+        renderItem={(item: IMessage, index) => (
           <List.Item>
             <div className="flex gap-2 items-center">
               <Avatar name={item.username} className="flex-shrink-0" size="sm" />

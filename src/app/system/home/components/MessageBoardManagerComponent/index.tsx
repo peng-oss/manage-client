@@ -58,9 +58,7 @@ export default function MessageBoardManagerComponent() {
             key: 'action',
             render: (_, record) => {
                 let disable = false
-                if (record.username === userData?.username) {
-                    disable = true
-                }
+
                 if (userData?.role?.code !== "1") {
                     disable = true
                 }
@@ -76,6 +74,6 @@ export default function MessageBoardManagerComponent() {
 
 
     return (
-        <div>    {contextHolder}<Table rowKey={(e) => e._id} columns={columns} dataSource={messageList?.data} /></div>
+        <div>    {contextHolder}<Table loading={isLoading} rowKey={(e) => e._id} columns={columns} dataSource={messageList?.data} /></div>
     )
 }

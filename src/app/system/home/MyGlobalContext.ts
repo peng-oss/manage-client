@@ -8,7 +8,8 @@ export interface UserData{
         value:String
     }
     token?: string
-    phone?:string
+    phone?: string,
+    receiveStatus?: boolean
 }
 export type GlobalContent = {
     userData?: UserData|null

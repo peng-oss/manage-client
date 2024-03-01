@@ -1,4 +1,5 @@
 "use client";
+import { get, post } from '@/request';
 import {
     CalendarOutlined,
     FileOutlined,
@@ -9,18 +10,18 @@ import {
 } from '@ant-design/icons';
 import { Avatar, Layout, Menu, MenuProps } from 'antd';
 import Sider from 'antd/es/layout/Sider';
-import { Content, Footer, Header } from 'antd/es/layout/layout';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import UserManagerComponent from './components/UserManagerComponent';
-import PersonalCenterComponent from './components/PersonalCenterComponent';
+import { Content, Header } from 'antd/es/layout/layout';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { MyGlobalContext } from './MyGlobalContext';
+import AppraisalComponent from './components/AppraisalComponent';
 import GuideManagerComponent from './components/GuideManagerComponent';
 import MemorialManagerComponent from './components/MemorialManagerComponent';
-import OrderManagerComponent from './components/OrderManagerComponent';
 import MessageBoardManagerComponent from './components/MessageBoardManagerComponent';
-import { get, post } from '@/request';
-import { MyGlobalContext } from './MyGlobalContext';
+import OrderManagerComponent from './components/OrderManagerComponent';
+import PersonalCenterComponent from './components/PersonalCenterComponent';
 import { Values } from './components/PersonalCenterComponent/component/editUserInfoModal';
-import { useRouter } from 'next/navigation';
+import UserManagerComponent from './components/UserManagerComponent';
 
 export default function SystemHome() {
 
@@ -33,14 +34,78 @@ export default function SystemHome() {
 
     const router = useRouter()
 
+    console.log('peng-oss😈----------userData----', userData)
+
+    const menuList = useMemo(() => {
+        if (userData?.role?.code === "1") {
+            return [{
+                label: "个人中心",
+                key: "1",
+                icon: <UserOutlined />
+            }, {
+                label: "用户管理",
+                key: "2",
+                icon: <TeamOutlined />
+            }, {
+                label: "讲解员管理",
+                key: "3",
+                icon: <RobotOutlined />
+            }, {
+                label: "纪念馆管理",
+                key: "4",
+                icon: <ReadOutlined />
+            }, {
+                label: "预约信息管理",
+                key: "5",
+                icon: <CalendarOutlined />
+            }, {
+                label: "留言板管理",
+                key: "6",
+                icon: <FileOutlined />
+            }, {
+                label: "观后评价管理",
+                key: "7",
+                icon: <FileOutlined />
+            }]
+        } else if (userData?.role?.code === "2") {
+            return [{
+                label: "个人中心",
+                key: "1",
+                icon: <UserOutlined />
+            }, {
+                label: "预约信息管理",
+                key: "5",
+                icon: <CalendarOutlined />
+            }, {
+                label: "留言板管理",
+                key: "6",
+                icon: <FileOutlined />
+            }]
+        } else {
+            return [{
+                label: "个人中心",
+                key: "1",
+                icon: <UserOutlined />
+            }, {
+                label: "预约信息管理",
+                key: "5",
+                icon: <CalendarOutlined />
+            }, {
+                label: "观后评价管理",
+                key: "7",
+                icon: <FileOutlined />
+            }]
+        }
+    }, [userData?.role?.code])
+
     const getUserInfo = useCallback(async () => {
-        if (userData.token) {
-            const response = await get("/api/auth/getUserInfo/" + userData.userName)
+        if (userData._id) {
+            const response = await get("/api/auth/getUserInfo/" + userData._id)
             if (response.success) {
                 setUserData(response.data)
             }
         }
-    }, [userData.token, userData.userName]
+    }, []
     )
     useEffect(() => {
         getUserInfo()
@@ -77,12 +142,7 @@ export default function SystemHome() {
 
         if (response.success) {
             setOpen(false)
-            setUserData({
-                ...value, role: {
-                    code: value.role,
-                    value: roleValue
-                }
-            })
+            getUserInfo()
         }
 
 
@@ -98,31 +158,7 @@ export default function SystemHome() {
     }
 
 
-    const menuList = [{
-        label: "个人中心",
-        key: "1",
-        icon: <UserOutlined />
-    }, {
-        label: "用户管理",
-        key: "2",
-        icon: <TeamOutlined />
-    }, {
-        label: "讲解员管理",
-        key: "3",
-        icon: <RobotOutlined />
-    }, {
-        label: "纪念馆管理",
-        key: "4",
-        icon: <ReadOutlined />
-    }, {
-        label: "预约信息管理",
-        key: "5",
-        icon: <CalendarOutlined />
-    }, {
-        label: "留言板管理",
-        key: "6",
-        icon: <FileOutlined />
-    }]
+
 
     const renderContent = () => {
         switch (current) {
@@ -140,6 +176,8 @@ export default function SystemHome() {
             case "6":
                 return <MessageBoardManagerComponent />
 
+            case "7":
+                return <AppraisalComponent />
 
             default:
                 break;

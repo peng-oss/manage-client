@@ -1,6 +1,7 @@
 import Mongoose, { Schema } from "mongoose";
 
 export interface IAppraisal {
+    _id:string
     username: string;
     content: string;
 }

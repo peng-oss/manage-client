@@ -1,11 +1,10 @@
 import { IUserInfo } from '@/models/user';
 import { deleteOne, get, post } from '@/request';
-import { App, Button, Dropdown, MenuProps, Space, Table, TableProps, Tag, message } from 'antd'
-import React from 'react'
-import useSWR, { Fetcher } from 'swr';
-import { DeleteFilled, DownOutlined } from '@ant-design/icons'
-import { useGlobalContext } from '../../MyGlobalContext';
+import { DeleteFilled, DownOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Space, Table, TableProps, message } from 'antd';
 import { MenuInfo } from 'rc-menu/lib/interface';
+import useSWR from 'swr';
+import { useGlobalContext } from '../../MyGlobalContext';
 const items = [
     {
         label: '管理员',
@@ -24,7 +23,7 @@ const items = [
 export default function UserManagerComponent() {
 
 
-    const { data: userList, error, isLoading, mutate } = useSWR<{ data: IUserInfo[] }>("/api/auth/getAllUserList", get)
+    const { data: userList, mutate, isLoading } = useSWR<{ data: IUserInfo[] }>("/api/auth/getAllUserList", get)
 
     const { userData } = useGlobalContext()
 
@@ -130,6 +129,6 @@ export default function UserManagerComponent() {
 
 
     return (
-        <div>         {contextHolder}<Table rowKey={(e) => e._id} columns={columns} dataSource={userList?.data} /></div>
+        <div>         {contextHolder}<Table loading={isLoading} rowKey={(e) => e._id} columns={columns} dataSource={userList?.data} /></div>
     )
 }

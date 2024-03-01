@@ -7,7 +7,7 @@ import Marquee from 'react-fast-marquee';
 import moment from 'moment'
 
 interface Props {
-    homeData: IHome
+    homeData?: IHome
 }
 export default function MainComponent(props: Props) {
     const { homeData } = props
@@ -20,7 +20,7 @@ export default function MainComponent(props: Props) {
                     banner
                     message={
                         <Marquee pauseOnHover gradient={false}>
-                            {homeData.notice}
+                            {homeData?.notice}
                         </Marquee>
                     }
                 />
@@ -52,7 +52,7 @@ export default function MainComponent(props: Props) {
                     </CardHeader>
                     <Divider />
                     <CardBody>
-                        <p className="text-md">{homeData.timeDetail}</p>
+                        <p className="text-md">{homeData?.timeDetail}</p>
                     </CardBody>
 
 
@@ -69,12 +69,12 @@ export default function MainComponent(props: Props) {
                 </CardHeader>
                 <Divider />
                 <CardBody>
-                    <p>{homeData.introduction}</p>
+                    <p>{homeData?.introduction}</p>
                 </CardBody>
 
 
             </Card>
-        
+
         </div>
     )
 }

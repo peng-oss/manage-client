@@ -1,5 +1,5 @@
 
-
+import { IAppraisal } from '@/models/appraisal';
 import { IReserve } from '@/models/reserve';
 import { deleteOne, get } from '@/request';
 import { DeleteFilled } from '@ant-design/icons';
@@ -7,12 +7,12 @@ import { Button, Space, Table, TableProps, message } from 'antd';
 import useSWR from 'swr';
 import { useGlobalContext } from '../../MyGlobalContext';
 
-export default function OrderManagerComponent() {
+export default function AppraisalComponent() {
 
 
-    const { data: userList, error, isLoading, mutate } = useSWR<{
-        data: IReserve[]
-    }>("/api/reserve/getReserveList", get)
+    const { data: messageList, error, isLoading, mutate } = useSWR<{
+        data: IAppraisal[]
+    }>("/api/appraisal/getAppraisalList", get)
 
     const { userData } = useGlobalContext()
 
@@ -21,7 +21,7 @@ export default function OrderManagerComponent() {
 
     const handleButtonClick = async (record: IReserve) => {
 
-        const response = await deleteOne("/api/reserve/editReserve", {
+        const response = await deleteOne("/api/appraisal/editAppraisal", {
             _id: record._id,
         })
 
@@ -38,15 +38,15 @@ export default function OrderManagerComponent() {
 
 
 
-    const columns: TableProps<IReserve>['columns'] = [
+    const columns: TableProps<IAppraisal>['columns'] = [
         {
             title: '用户名',
             dataIndex: 'username',
 
         },
         {
-            title: '预约时间',
-            dataIndex: 'dateString',
+            title: '评价内容',
+            dataIndex: 'content',
 
         },
 
@@ -55,9 +55,7 @@ export default function OrderManagerComponent() {
             key: 'action',
             render: (_, record) => {
                 let disable = false
-                if (record.username === userData?.username) {
-                    disable = true
-                }
+
                 if (userData?.role?.code !== "1") {
                     disable = true
                 }
@@ -73,6 +71,6 @@ export default function OrderManagerComponent() {
 
 
     return (
-        <div>    {contextHolder}<Table loading={isLoading} rowKey={(e) => e._id} columns={columns} dataSource={userList?.data} /></div>
+        <div>    {contextHolder}<Table loading={isLoading} rowKey={(e) => e._id} columns={columns} dataSource={messageList?.data} /></div>
     )
 }
