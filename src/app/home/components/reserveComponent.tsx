@@ -26,7 +26,7 @@ export default function ReserveComponent() {
     if (dateString.length !== 0) {
       const response = await post("api/reserve/editReserve", {
         dateString,
-        userName: userData.userName
+        username: userData.username
       })
 
       if (response.success) {

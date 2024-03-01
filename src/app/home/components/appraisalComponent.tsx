@@ -35,11 +35,11 @@ export default function AppraisalComponent() {
     if (value.length !== 0) {
       post("api/appraisal/editAppraisal", {
         content: value,
-        userName: userData?.userName
+        username: userData?.username
       })
       messageApi.success('提交成功')
       setAppraisalList(pre => {
-        return [{ content: value, userName: userData?.userName ?? '' }, ...pre]
+        return [{ content: value, username: userData?.username ?? '' }, ...pre]
       })
     } else {
       messageApi.error('请填写你的留言')
@@ -71,9 +71,9 @@ export default function AppraisalComponent() {
         renderItem={(item, index) => (
           <List.Item>
             <div className="flex gap-2 items-center">
-              <Avatar name={item.userName} className="flex-shrink-0" size="sm" />
+              <Avatar name={item.username} className="flex-shrink-0" size="sm" />
               <div className="flex flex-col">
-                <span className="text-small" style={{ color: "white" }}>{item.userName}</span>
+                <span className="text-small" style={{ color: "white" }}>{item.username}</span>
                 <span className="text-tiny text-default-400">{item.content}</span>
               </div>
             </div>

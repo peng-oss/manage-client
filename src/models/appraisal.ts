@@ -1,12 +1,12 @@
 import Mongoose, { Schema } from "mongoose";
 
 export interface IAppraisal {
-    userName: string;
+    username: string;
     content: string;
 }
 
 const appraisalSchema = new Schema({
-    userName: String,
+    username: String,
     content: String,
 }, {
     timestamps:true

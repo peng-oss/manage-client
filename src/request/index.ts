@@ -1,3 +1,5 @@
+
+
 interface HttpResponse<T>  {
     success: boolean;
     message: string;
@@ -40,7 +42,15 @@ interface HttpResponse<T>  {
     args: RequestInit = { method: "put", body: JSON.stringify(body) }
   ): Promise<HttpResponse<T>> {
     return await http<T>(new Request(path, args));
-  };
+};
+  
+export async function deleteOne<T>(
+  path: string,
+  body: any,
+  args: RequestInit = { method: "delete", body: JSON.stringify(body) }
+): Promise<HttpResponse<T>> {
+  return await http<T>(new Request(path, args));
+};
   
 
   

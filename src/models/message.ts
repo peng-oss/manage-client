@@ -1,12 +1,13 @@
 import Mongoose, { Schema } from "mongoose";
 
 export interface IMessage {
-    userName: string;
+    _id?:string
+    username: string;
     content: string;
 }
 
 const messageSchema = new Schema({
-    userName: String,
+    username: String,
     content: String,
 }, {
     timestamps:true

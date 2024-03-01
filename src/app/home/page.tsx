@@ -18,7 +18,7 @@ export default function Home() {
     const [currentActive, setCurrentActive] = useState("首页");
 
     const [userData, setUserData] = useState<UserData>({
-        userName: undefined,
+        username: undefined,
         token: undefined
     })
 
@@ -73,6 +73,8 @@ export default function Home() {
             localStorage.setItem('token', loginResponse.data.token)
             setUserData(loginResponse.data)
             messageApi.info('登录成功');
+        } else {
+            messageApi.info(loginResponse.message);
         }
 
     }
@@ -84,7 +86,7 @@ export default function Home() {
         if (response.success) {
             localStorage.removeItem('token')
             setUserData({
-                userName: undefined,
+                username: undefined,
                 token: undefined
             })
         }
@@ -129,7 +131,7 @@ export default function Home() {
                         {
                             userData.token ? <Dropdown>
                                 <DropdownTrigger>
-                                    <Avatar name={userData.userName} />
+                                    <Avatar name={userData.username} />
                                 </DropdownTrigger>
                                 <DropdownMenu aria-label="Static Actions">
                                     <DropdownItem onClick={onClickLogout} className="text-danger" color="danger">退出登录</DropdownItem>

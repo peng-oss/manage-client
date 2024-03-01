@@ -1,12 +1,13 @@
 import Mongoose, { Schema } from "mongoose";
 
 export interface IReserve {
-    userName: string;
+    _id:string
+    username: string;
     dateString: string;
 }
 
 const reserveSchema = new Schema({
-    userName: String,
+    username: String,
     dateString: String,
 }, {
     timestamps:true
